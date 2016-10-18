@@ -1,0 +1,23 @@
+server:
+  type: simple
+  applicationContextPath: /
+  adminContextPath: /admin
+  connector:
+    type: http
+    bindHost: 127.0.0.1
+    port: 8080
+
+swagger:
+  resourcePackage: com.example.demo.resource
+
+logging:
+  appenders:
+    - type: console
+    - type: gelf
+      host: udp:127.0.0.1
+      originHost: demo.example.com
+      extractStackTrace: true
+      filterStackTrace: true
+      includeFullMDC: true
+      additionalFields:
+        presentation_venue: JUGM

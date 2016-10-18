@@ -1,0 +1,29 @@
+= Talk: Logging Best Practices
+
+Slides: https://joschi.github.io/jugm-talk-logging/ (link:slides.pdf[Download PDF])
+
+
+== Build instructions
+
+* Install dependencies:
+
+  $ rm -f Gemfile.lock
+  $ bundle --path=.bundle/gems --binstubs=.bundle/.bin install
+
+* Build slides:
+
+  $ make
+
+* Open slides in browser:
+
+  $ make open
+
+* PDF export: https://github.com/hakimel/reveal.js/tree/3.3.0#pdf-export
+  * https://joschi.github.io/jugm-talk-logging/?print-pdf
+
+
+== Feedback
+
+If you have questions or feedback about the talk (slides or demo project), please https://github.com/joschi/jugm-talk-dropwizard/issues[file an issue in this repository].
+
+Any feedback is welcome!

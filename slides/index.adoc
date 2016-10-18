@@ -1,0 +1,138 @@
+= Logging Best Practices
+:backend: revealjs
+:imagesdir: images
+:icons: font
+:customcss: slides.css
+:revealjs_theme: moon
+:title-slide-background-image: logging_truck.jpg
+
+
+== Einführung (1)
+
+[quote]
+____
+Unter Logging versteht man in der Informatik generell das (automatische) Speichern von Prozessen oder Datenänderungen. Diese werden in sogenannten Logdateien hinterlegt bzw. gespeichert.
+____
+https://de.wikipedia.org/wiki/Logging
+
+
+=== Einführung (2)
+
+[quote]
+____
+Außer dem Betriebssystem selbst schreiben meist Hintergrundprogramme (z. B. ein E-Mail-Server, ein Proxyserver und anderes) in Logdateien, um Aktionsmeldungen, Fehlermeldungen und Hinweise persistent (dauernd) oder temporär verfügbar zu halten. Ähnliches gilt für Installationsprogramme, Firewalls, Virenscanner und dergleichen.
+____
+
+
+=== Einführung (3)
+
+Logs geben die Möglichkeit Dinge zu einem späteren Zeitpunkt nachzuvollziehen.
+
+
+== What's in a log message? (1)
+
+Minimale Lognachricht:
+
+[%step]
+* Zeitstempel (idealerweise https://de.wikipedia.org/wiki/ISO_8601[ISO 8601]-kompatibel)
+* Daten
+
+
+=== What's in a log message? (2)
+
+[source]
+----
+Oct 17 18:15:17 Example Message
+----
+
+
+=== What's in a log message? (3)
+
+[source]
+----
+Oct 17 18:15:17 joschi-mbp15 joschi[47088]: Example Message
+----
+
+
+=== What's in a log message? (4)
+
+[source]
+----
+2016-10-17T16:15:17.012Z joschi-mbp15 joschi[47088]: Example Message
+----
+
+
+== Structured Logging
+
+* Strukturierte Informationen in einer Lognachricht
+* Idealerweise mit definiertem Schema (Datentyp, Datenbereich etc.)
+* Structured Syslog: https://tools.ietf.org/html/rfc5424[RFC 5424]
+* https://journal.paul.querna.org/articles/2011/12/26/log-for-machines-in-json/[JSON]
+* https://www.protect724.hpe.com/docs/DOC-1072[CEF (Common Event Format)]
+
+
+== Best practices
+
+[%step]
+* Structured Logging verwenden
+* Logmeldungen an zentraler Stelle sammeln
+* Gemeinsames Vokabular für alle Systeme definieren
+* Sinnvolle Daten loggen (nein, keine 32 GiB große Coredumps…)
+* Log Levels nicht inflationär verwenden (es ist nicht alles ein ERROR)
+* Request ID an den Systemgrenzen erzeugen
+
+
+=== Request IDs
+
+* Request ID (eindeutige Kennung für eine Benutzerinteraktion)
+* An den Systemgrenzen erzeugen und weiterreichen
+* Bei verteiltem System: Request ID und Span ID (siehe Dapper oder Zipkin)
+* Unschätzbar wertvoll bei Fehleranalyse, Sicherheitsaudits und Performance-Analysen
+
+
+== Die liebe Verwandtschaft
+
+* Metriken (z. B. http://metrics.dropwizard.io/[Dropwizard Metrics])
+* Request Tracing (z. B. http://zipkin.io/[Zipkin])
+* Application Performance Monitoring  (z. B. https://newrelic.de/[New Relic])
+
+
+=== Grafana
+
+image::grafana.png[background, size=contain]
+
+
+=== Zipkin
+
+image::zipkin.png[background, size=contain]
+
+
+=== Graylog
+
+image::graylog.png[background, size=contain]
+
+
+== Demo
+
+https://github.com/joschi/jugm-talk-logging[Demo application on GitHub]
+
+
+== Kontakt
+
+image::yoshi.png[Yoshi]
+icon:twitter[link="https://twitter.com/joschi83"] –
+icon:github[link="https://github.com/joschi"] –
+icon:linkedin[link="https://www.linkedin.com/in/jschalanda"] –
+icon:xing[link="https://www.xing.com/profile/Jochen_Schalanda"]
+
+
+== Fragen?
+
+image::twinpeaks_loglady.jpg[background, size=cover]
+
+
+== Weiterführende Quellen
+
+* https://www.graylog.org/[Graylog]
+* https://www.owasp.org/index.php/Logging_Cheat_Sheet[OWASP Logging Cheat Sheet]
+* https://www.javacodegeeks.com/2011/01/10-tips-proper-application-logging.html[10 Tips for Proper Application Logging]

@@ -1,0 +1,84 @@
+= Dropwizard Demo Application
+
+* Build project:
+
+  ./gradlew build
+
+* Start Graylog Docker containers:
+
+  cd docker && docker-compose up
+
+* Start application:
+
+  ./gradlew run
+
+
+== Examples
+
+=== Graylog
+
+* Open Graylog (user: `admin`, password: `admin`): http://127.0.0.1:9000/
+
+
+
+=== Frontend
+
+* Show Swagger UI with all HTTP endpoints: http://127.0.0.1:8080/swagger
+
+* Show Kittens:
+
+  curl -X GET --header 'Accept: application/json' 'http://127.0.0.1:8080/kittens'
+
+* Show "Findus":
+
+  curl -X GET --header 'Accept: application/json' 'http://127.0.0.1:8080/kittens/Findus'
+
+* Show HTTP 404 from `Optional<Kitten>`:
+
+  curl -X GET --header 'Accept: application/json' 'http://127.0.0.1:8080/kittens/Carlo'
+
+* Create new Kitten:
+
+  curl -X POST -H 'Content-Type: application/json' -H 'Accept: application/json' -d '{"id": 1, "name": "Grumpy", "type": "GRUMPY"}' 'http://127.0.0.1:8080/kittens'
+
+* Show created Kitten:
+
+  curl -X GET --header 'Accept: application/json' 'http://127.0.0.1:8080/kittens/Grumpy'
+
+* Delete "Findus" (with authentication):
+
+  curl -X DELETE --user jochen:secret --header 'Accept: application/json' 'http://127.0.0.1:8080/kittens/Findus'
+
+* Show failing Kitten HTTP resource:
+
+  curl -X GET --header 'Accept: application/json' 'http://127.0.0.1:8080/kittens/fail'
+
+* Show random HTTP status cats: http://127.0.0.1:8080/status
+
+  curl -i 'http://127.0.0.1:8080/status'
+
+
+=== Admin Backend
+
+* Show metrics: http://127.0.0.1:8080/admin/metrics?pretty=true
+* Show thread status: http://127.0.0.1:8080/admin/threads
+* Show health checks: http://127.0.0.1:8080/admin/healthcheck?pretty=true
+* Toggle status of DemoHealthCheck:
+
+  curl -X POST http://127.0.0.1:8080/admin/tasks/toggle-health
+
+
+=== Backend (CLI)
+
+* Show configuration check:
+
+  java -jar build/libs/demo-1.0.0-SNAPSHOT-all.jar check config.yml
+
+
+== License
+
+Copyright (C) 2016 Jochen Schalanda
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0

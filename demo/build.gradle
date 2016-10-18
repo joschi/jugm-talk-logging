@@ -1,0 +1,55 @@
+plugins {
+    id 'java'
+    id 'application'
+    id "org.inferred.processors" version "1.2.3"
+}
+
+version = '1.0.0-SNAPSHOT'
+group = 'com.example.demo'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+// UTF-8 should be standard by now. So use it!
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+// The main class of the application
+mainClassName = 'com.example.demo.DemoApplication'
+
+// Disable building ZIP and TAR archives with Gradle Application plugin
+distTar.enabled = false
+distZip.enabled = false
+
+repositories {
+    jcenter()
+}
+
+ext {
+    dropwizardVersion = '1.0.2'
+}
+
+dependencies {
+    compile "io.dropwizard:dropwizard-core:${dropwizardVersion}"
+    compile "io.dropwizard:dropwizard-auth:${dropwizardVersion}"
+    compile "io.dropwizard:dropwizard-views:${dropwizardVersion}"
+    compile "io.dropwizard:dropwizard-views-mustache:${dropwizardVersion}"
+
+    // Community project: https://github.com/smoketurner/dropwizard-swagger
+    compile "com.smoketurner:dropwizard-swagger:1.0.0-1"
+
+    // Community project: https://github.com/gini/dropwizard-gelf
+    compile 'net.gini.dropwizard:dropwizard-gelf:1.0.0-1'
+
+    // Sending Dropwizard Metrics to Graylog: https://github.com/Graylog2/metrics-gelf
+    compile 'org.graylog.metrics:metrics-gelf:1.0.0'
+
+    // Immutables: https://immutables.github.io/
+    processor 'org.immutables:value:2.3.5'
+
+    testCompile "io.dropwizard:dropwizard-testing:${dropwizardVersion}"
+}
+
+// Configure the run task to start the Dropwizard application
+run {
+    args 'server', 'config.yml'
+}

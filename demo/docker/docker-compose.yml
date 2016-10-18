@@ -1,0 +1,26 @@
+version: '2'
+services:
+  mongo:
+    image: "mongo:3"
+  elasticsearch:
+    image: "elasticsearch:2"
+    command: "elasticsearch -Des.cluster.name='graylog'"
+  graylog:
+    image: graylog2/server:2.1.1-1
+    environment:
+      GRAYLOG_PASSWORD_SECRET: "secret_secret_secret"
+      GRAYLOG_ROOT_PASSWORD_SHA2: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
+      GRAYLOG_REST_ENABLE_GZIP: "false"
+      GRAYLOG_WEB_ENDPOINT_URI: "http://127.0.0.1:9000/api"
+      GRAYLOG_ELASTICSEARCH_SHARDS: 1
+      GRAYLOG_ELASTICSEARCH_REPLICAS: 0
+      GRAYLOG_CONTENT_PACKS_AUTO_DIR: "/contentpacks/"
+      GRAYLOG_CONTENT_PACKS_AUTO_LOAD: "demo.json"
+    depends_on:
+      - mongo
+      - elasticsearch
+    ports:
+      - "9000:9000"
+      - "12201:12201/udp"
+    volumes:
+      - ./contentpacks:/contentpacks/:ro
